@@ -34,6 +34,8 @@
 		D49CC9832413D1CB007CEB93 /* Stations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D49CC9822413D1CB007CEB93 /* Stations.storyboard */; };
 		D49CC9862413D682007CEB93 /* StationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49CC9842413D682007CEB93 /* StationCell.swift */; };
 		D49CC9872413D682007CEB93 /* StationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D49CC9852413D682007CEB93 /* StationCell.xib */; };
+		D49CC98D2413E15E007CEB93 /* SortByViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49CC98C2413E15E007CEB93 /* SortByViewController.swift */; };
+		D49CC98F2413E169007CEB93 /* SortBy.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D49CC98E2413E169007CEB93 /* SortBy.storyboard */; };
 		D4F4CB032413B96A00DDB875 /* NetworkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F4CB012413B96A00DDB875 /* NetworkCell.swift */; };
 		D4F4CB042413B96A00DDB875 /* NetworkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4F4CB022413B96A00DDB875 /* NetworkCell.xib */; };
 		F17CF65BA0B7B0974B7B2DD0 /* Pods_MediQuoTestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DE5B33D21779EAF71D2EB2 /* Pods_MediQuoTestTests.framework */; };
@@ -85,6 +87,8 @@
 		D49CC9822413D1CB007CEB93 /* Stations.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Stations.storyboard; sourceTree = "<group>"; };
 		D49CC9842413D682007CEB93 /* StationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationCell.swift; sourceTree = "<group>"; };
 		D49CC9852413D682007CEB93 /* StationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StationCell.xib; sourceTree = "<group>"; };
+		D49CC98C2413E15E007CEB93 /* SortByViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortByViewController.swift; sourceTree = "<group>"; };
+		D49CC98E2413E169007CEB93 /* SortBy.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SortBy.storyboard; sourceTree = "<group>"; };
 		D4F4CB012413B96A00DDB875 /* NetworkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCell.swift; sourceTree = "<group>"; };
 		D4F4CB022413B96A00DDB875 /* NetworkCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NetworkCell.xib; sourceTree = "<group>"; };
 		FFB6C95D9C42B41864AD644B /* Pods_MediQuoTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediQuoTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -202,6 +206,8 @@
 				D47F806E240ED1CC00B72B7A /* HomeInteractor.swift */,
 				D4F4CB012413B96A00DDB875 /* NetworkCell.swift */,
 				D4F4CB022413B96A00DDB875 /* NetworkCell.xib */,
+				D49CC98C2413E15E007CEB93 /* SortByViewController.swift */,
+				D49CC98E2413E169007CEB93 /* SortBy.storyboard */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -321,6 +327,7 @@
 				D47F8050240ED10400B72B7A /* LaunchScreen.storyboard in Resources */,
 				D47F804D240ED10400B72B7A /* Assets.xcassets in Resources */,
 				D4F4CB042413B96A00DDB875 /* NetworkCell.xib in Resources */,
+				D49CC98F2413E169007CEB93 /* SortBy.storyboard in Resources */,
 				D49CC9832413D1CB007CEB93 /* Stations.storyboard in Resources */,
 				D49CC9722413BED5007CEB93 /* Detail.storyboard in Resources */,
 				D49CC9872413D682007CEB93 /* StationCell.xib in Resources */,
@@ -421,6 +428,7 @@
 				D47F8078240ED29000B72B7A /* APIClient.swift in Sources */,
 				D47F8074240ED1CC00B72B7A /* HomeInteractor.swift in Sources */,
 				D47F8080240ED2FA00B72B7A /* Transitioner.swift in Sources */,
+				D49CC98D2413E15E007CEB93 /* SortByViewController.swift in Sources */,
 				D47F807E240ED2DD00B72B7A /* AppRouter.swift in Sources */,
 				D47F8044240ED10200B72B7A /* AppDelegate.swift in Sources */,
 				D47F8072240ED1CC00B72B7A /* HomeModels.swift in Sources */,

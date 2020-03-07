@@ -42,6 +42,12 @@ class HomeViewController: UIViewController, HomeDisplayLogic, APIClientDependenc
         setup()
         configureTableView()
         configureSearchBar()
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort By", style: .plain, target: self, action: #selector(sortByAction))
+    }
+
+    @objc private func sortByAction() {
+        router.goTo(.sortBy, from: self)
     }
 
     private func configureTableView() {

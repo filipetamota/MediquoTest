@@ -38,6 +38,12 @@ class AppRouter: NSObject, Router {
             configure(vc, route: route)
             let nc = UINavigationController(rootViewController: vc)
             transitioner.perform(.modal(nc, animated: true), from: presenter)
+
+        case .sortBy:
+            let vc = SortByViewController.instantiate()
+            configure(vc, route: route)
+            let nc = UINavigationController(rootViewController: vc)
+            transitioner.perform(.modal(nc, animated: true), from: presenter)
         }
     }
 
