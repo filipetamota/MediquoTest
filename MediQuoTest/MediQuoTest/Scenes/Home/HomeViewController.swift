@@ -11,6 +11,7 @@
 //
 
 import UIKit
+import PKHUD
 
 protocol HomeDisplayLogic: class {
   func displayData(data: [Home.Fetch.ViewModel]?, error: Error?)
@@ -22,17 +23,37 @@ class HomeViewController: UIViewController, HomeDisplayLogic, APIClientDependenc
     private(set) var route: Route!
     var interactor: HomeBusinessLogic?
     private var networksData: [Home.Fetch.ViewModel]?
+
+    let searchController = UISearchController(searchResultsController: nil)
+    var filteredData: [Home.Fetch.ViewModel] = []
   
     @IBOutlet weak var tableView: UITableView!
+
+    var isSearchBarEmpty: Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+
+    var isFiltering: Bool {
+        return searchController.isActive && !isSearchBarEmpty
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         configureTableView()
+        configureSearchBar()
     }
 
     private func configureTableView() {
         tableView.register(UINib(nibName: "NetworkCell", bundle: nil), forCellReuseIdentifier: "NetworkCell")
+    }
+
+    private func configureSearchBar() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Networks"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
 
     private func setup() {
@@ -51,12 +72,14 @@ class HomeViewController: UIViewController, HomeDisplayLogic, APIClientDependenc
     }
   
     func fetch() {
+        HUD.show(.progress)
         let request = Home.Fetch.Request(route: "networks/")
         interactor?.fetch(request: request)
     }
   
     func displayData(data: [Home.Fetch.ViewModel]?, error: Error?) {
         if let error = error {
+            HUD.flash(.error)
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: NSLocalizedString("Try Again", comment: ""), style: .default, handler: { _ in
@@ -65,7 +88,22 @@ class HomeViewController: UIViewController, HomeDisplayLogic, APIClientDependenc
             self.present(alert, animated: true, completion: nil)
         } else {
             networksData = data?.sorted(by: { $0.name < $1.name })
+            HUD.flash(.success)
         }
+        tableView.reloadData()
+    }
+
+    func filterContentForSearchText(_ searchText: String) {
+        guard let data = networksData else {
+            return
+        }
+        filteredData = data.filter({ network -> Bool in
+            return
+                network.name.lowercased().contains(searchText.lowercased()) ||
+                network.location.city.lowercased().contains(searchText.lowercased()) ||
+                network.location.country.lowercased().contains(searchText.lowercased())
+        })
+
         tableView.reloadData()
     }
 }
@@ -92,30 +130,48 @@ extension HomeViewController: Routable {
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let detailRoute = networksData?[indexPath.row].route else {
-            return
+        if isFiltering {
+            router.goTo(.detail(detailRoute: filteredData[indexPath.row].route), from: self)
+        } else {
+            guard let detailRoute = networksData?[indexPath.row].route else {
+                return
+            }
+            router.goTo(.detail(detailRoute: detailRoute), from: self)
         }
-        router.goTo(.detail(detailRoute: detailRoute), from: self)
     }
 }
 
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering {
+            return filteredData.count
+        }
         return networksData?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NetworkCell", for: indexPath) as? NetworkCell,
-            let viewModel = networksData?[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NetworkCell", for: indexPath) as? NetworkCell
         else {
             fatalError()
-
         }
-        cell.setup(viewModel: viewModel)
+
+        if isFiltering {
+            cell.setup(viewModel: filteredData[indexPath.row])
+        } else {
+            guard let viewModel = networksData?[indexPath.row] else {
+                fatalError()
+            }
+            cell.setup(viewModel: viewModel)
+        }
 
         return cell
     }
+}
 
-
+extension HomeViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        filterContentForSearchText(searchBar.text!)
+    }
 }

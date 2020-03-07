@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import PKHUD
 
 protocol DetailDisplayLogic: class {
   func displayData(data: Detail.Fetch.ViewModel?, error: Error?)
@@ -49,12 +50,14 @@ class DetailViewController: UIViewController, DetailDisplayLogic, APIClientDepen
     }
   
     func fetch() {
+        HUD.show(.progress)
         let request = Detail.Fetch.Request(route: detailRoute)
         interactor?.fetch(request: request)
     }
   
     func displayData(data: Detail.Fetch.ViewModel?, error: Error?) {
         if let error = error {
+            HUD.flash(.error)
             let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: NSLocalizedString("Try Again", comment: ""), style: .default, handler: { _ in
@@ -75,6 +78,7 @@ class DetailViewController: UIViewController, DetailDisplayLogic, APIClientDepen
                 seeStationsButton.isHidden = false
             }
             self.data = data
+            HUD.flash(.success)
         }
     }
     
