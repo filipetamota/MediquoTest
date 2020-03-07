@@ -13,7 +13,7 @@
 import UIKit
 
 protocol HomeDisplayLogic: class {
-    func displaySomething(viewModel: Home.Something.ViewModel)
+  func displayData(data: [Home.Fetch.ViewModel]?, error: Error?)
 }
 
 class HomeViewController: UIViewController, HomeDisplayLogic, APIClientDependency {
@@ -21,37 +21,52 @@ class HomeViewController: UIViewController, HomeDisplayLogic, APIClientDependenc
     var router: Router!
     private(set) var route: Route!
     var interactor: HomeBusinessLogic?
+    private var networksData: [Home.Fetch.ViewModel]?
   
+    @IBOutlet weak var tableView: UITableView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        configureTableView()
+    }
+
+    private func configureTableView() {
+        tableView.register(UINib(nibName: "NetworkCell", bundle: nil), forCellReuseIdentifier: "NetworkCell")
     }
 
     private func setup() {
-      let viewController = self
-      let interactor = HomeInteractor()
-      let presenter = HomePresenter()
-      viewController.interactor = interactor
-      interactor.presenter = presenter
-      presenter.viewController = viewController
+        let viewController = self
+        let interactor = HomeInteractor()
+        let presenter = HomePresenter()
+        viewController.interactor = interactor
+        interactor.presenter = presenter
+        interactor.api = api
+        presenter.viewController = viewController
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        doSomething()
+        fetch()
     }
   
-  // MARK: Do something
-  
-  //@IBOutlet weak var nameTextField: UITextField!
-  
-    func doSomething() {
-        let request = Home.Something.Request()
-        interactor?.doSomething(request: request)
+    func fetch() {
+        let request = Home.Fetch.Request(route: "networks/")
+        interactor?.fetch(request: request)
     }
   
-    func displaySomething(viewModel: Home.Something.ViewModel) {
-        //nameTextField.text = viewModel.name
+    func displayData(data: [Home.Fetch.ViewModel]?, error: Error?) {
+        if let error = error {
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Try Again", comment: ""), style: .default, handler: { _ in
+                self.fetch()
+            }))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            networksData = data?.sorted(by: { $0.name < $1.name })
+        }
+        tableView.reloadData()
     }
 }
 
@@ -68,6 +83,39 @@ extension HomeViewController: Routable {
         switch route {
         case .home:
             self.route = route
+        default:
+            fatalError()
         }
     }
+}
+
+extension HomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard let detailRoute = networksData?[indexPath.row].route else {
+            return
+        }
+        router.goTo(.detail(detailRoute: detailRoute), from: self)
+    }
+}
+
+extension HomeViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return networksData?.count ?? 0
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NetworkCell", for: indexPath) as? NetworkCell,
+            let viewModel = networksData?[indexPath.row]
+        else {
+            fatalError()
+
+        }
+        cell.setup(viewModel: viewModel)
+
+        return cell
+    }
+
+
 }

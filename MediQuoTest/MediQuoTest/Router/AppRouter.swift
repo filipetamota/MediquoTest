@@ -27,6 +27,11 @@ class AppRouter: NSObject, Router {
             configure(vc, route: route)
             let nc = UINavigationController(rootViewController: vc)
             transitioner.perform(.root(nc, animated: true), from: presenter)
+
+        case .detail(_):
+            let vc = DetailViewController.instantiate()
+            configure(vc, route: route)
+            transitioner.perform(.push(vc, animated: true), from: presenter)
         }
     }
 

@@ -24,6 +24,14 @@
 		D47F807E240ED2DD00B72B7A /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47F807D240ED2DD00B72B7A /* AppRouter.swift */; };
 		D47F8080240ED2FA00B72B7A /* Transitioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47F807F240ED2FA00B72B7A /* Transitioner.swift */; };
 		D47F8082240ED30B00B72B7A /* AppTransitioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47F8081240ED30B00B72B7A /* AppTransitioner.swift */; };
+		D49CC96B2413BEC1007CEB93 /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49CC9652413BEC1007CEB93 /* DetailPresenter.swift */; };
+		D49CC96C2413BEC1007CEB93 /* DetailWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49CC9662413BEC1007CEB93 /* DetailWorker.swift */; };
+		D49CC96E2413BEC1007CEB93 /* DetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49CC9682413BEC1007CEB93 /* DetailModels.swift */; };
+		D49CC96F2413BEC1007CEB93 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49CC9692413BEC1007CEB93 /* DetailViewController.swift */; };
+		D49CC9702413BEC1007CEB93 /* DetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49CC96A2413BEC1007CEB93 /* DetailInteractor.swift */; };
+		D49CC9722413BED5007CEB93 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D49CC9712413BED5007CEB93 /* Detail.storyboard */; };
+		D4F4CB032413B96A00DDB875 /* NetworkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F4CB012413B96A00DDB875 /* NetworkCell.swift */; };
+		D4F4CB042413B96A00DDB875 /* NetworkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4F4CB022413B96A00DDB875 /* NetworkCell.xib */; };
 		F17CF65BA0B7B0974B7B2DD0 /* Pods_MediQuoTestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DE5B33D21779EAF71D2EB2 /* Pods_MediQuoTestTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +71,14 @@
 		D47F807D240ED2DD00B72B7A /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		D47F807F240ED2FA00B72B7A /* Transitioner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transitioner.swift; sourceTree = "<group>"; };
 		D47F8081240ED30B00B72B7A /* AppTransitioner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTransitioner.swift; sourceTree = "<group>"; };
+		D49CC9652413BEC1007CEB93 /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
+		D49CC9662413BEC1007CEB93 /* DetailWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWorker.swift; sourceTree = "<group>"; };
+		D49CC9682413BEC1007CEB93 /* DetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModels.swift; sourceTree = "<group>"; };
+		D49CC9692413BEC1007CEB93 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		D49CC96A2413BEC1007CEB93 /* DetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInteractor.swift; sourceTree = "<group>"; };
+		D49CC9712413BED5007CEB93 /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
+		D4F4CB012413B96A00DDB875 /* NetworkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCell.swift; sourceTree = "<group>"; };
+		D4F4CB022413B96A00DDB875 /* NetworkCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NetworkCell.xib; sourceTree = "<group>"; };
 		FFB6C95D9C42B41864AD644B /* Pods_MediQuoTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MediQuoTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -162,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				D47F8068240ED1BB00B72B7A /* Home */,
+				D49CC9642413BEA6007CEB93 /* Detail */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -175,8 +192,23 @@
 				D47F806A240ED1CC00B72B7A /* HomeWorker.swift */,
 				D47F806C240ED1CC00B72B7A /* HomeModels.swift */,
 				D47F806E240ED1CC00B72B7A /* HomeInteractor.swift */,
+				D4F4CB012413B96A00DDB875 /* NetworkCell.swift */,
+				D4F4CB022413B96A00DDB875 /* NetworkCell.xib */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		D49CC9642413BEA6007CEB93 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				D49CC9692413BEC1007CEB93 /* DetailViewController.swift */,
+				D49CC9712413BED5007CEB93 /* Detail.storyboard */,
+				D49CC9652413BEC1007CEB93 /* DetailPresenter.swift */,
+				D49CC9662413BEC1007CEB93 /* DetailWorker.swift */,
+				D49CC9682413BEC1007CEB93 /* DetailModels.swift */,
+				D49CC96A2413BEC1007CEB93 /* DetailInteractor.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		EE225EE8E4B52D8832F84E60 /* Pods */ = {
@@ -276,6 +308,8 @@
 			files = (
 				D47F8050240ED10400B72B7A /* LaunchScreen.storyboard in Resources */,
 				D47F804D240ED10400B72B7A /* Assets.xcassets in Resources */,
+				D4F4CB042413B96A00DDB875 /* NetworkCell.xib in Resources */,
+				D49CC9722413BED5007CEB93 /* Detail.storyboard in Resources */,
 				D47F8076240ED1DB00B72B7A /* Home.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,9 +394,15 @@
 			files = (
 				D47F806F240ED1CC00B72B7A /* HomePresenter.swift in Sources */,
 				D47F807A240ED2A700B72B7A /* AppAPIClient.swift in Sources */,
+				D4F4CB032413B96A00DDB875 /* NetworkCell.swift in Sources */,
 				D47F807C240ED2C700B72B7A /* Router.swift in Sources */,
+				D49CC96C2413BEC1007CEB93 /* DetailWorker.swift in Sources */,
 				D47F8070240ED1CC00B72B7A /* HomeWorker.swift in Sources */,
+				D49CC9702413BEC1007CEB93 /* DetailInteractor.swift in Sources */,
+				D49CC96B2413BEC1007CEB93 /* DetailPresenter.swift in Sources */,
 				D47F8082240ED30B00B72B7A /* AppTransitioner.swift in Sources */,
+				D49CC96F2413BEC1007CEB93 /* DetailViewController.swift in Sources */,
+				D49CC96E2413BEC1007CEB93 /* DetailModels.swift in Sources */,
 				D47F8078240ED29000B72B7A /* APIClient.swift in Sources */,
 				D47F8074240ED1CC00B72B7A /* HomeInteractor.swift in Sources */,
 				D47F8080240ED2FA00B72B7A /* Transitioner.swift in Sources */,

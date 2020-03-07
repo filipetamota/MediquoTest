@@ -17,6 +17,7 @@ protocol Routable {
 
 enum Route {
     case home
+    case detail(detailRoute: String)
 }
 
 protocol Router {

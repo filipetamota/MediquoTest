@@ -1,21 +1,21 @@
 //
-//  HomeWorker.swift
+//  DetailWorker.swift
 //  MediQuoTest
 //
-//  Created by Filipe on 03/03/2020.
+//  Created by Filipe on 07/03/2020.
 //  Copyright (c) 2020 Filipe Mota. All rights reserved.
 //
 
 import UIKit
 
-class HomeWorker {
+class DetailWorker {
     let api: APIClient
 
     init(api: APIClient) {
         self.api = api
     }
 
-    func getNetworks(request: Home.Fetch.Request, completion: @escaping ([String: Any]?, Error?) -> Void) {
+    func getNetworkDetail(request: Detail.Fetch.Request, completion: @escaping ([String: Any]?, Error?) -> Void) {
         api.get(route: request.route, parameters: nil) { (response, error) in
             completion(response, error)
         }
