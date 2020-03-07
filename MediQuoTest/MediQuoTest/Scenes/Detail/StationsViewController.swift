@@ -18,7 +18,7 @@ class StationsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Stations"
+        title = NSLocalizedString("Stations", comment: "")
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAction))
         configureTableView()
     }

@@ -13,6 +13,28 @@
 import UIKit
 import PKHUD
 
+enum SortingMethod {
+    case nameAsc
+    case nameDesc
+    case stations
+    case location
+
+    var title: String {
+        switch self {
+        case .nameAsc:
+            return NSLocalizedString("By name ascending", comment: "")
+        case .nameDesc:
+            return NSLocalizedString("By name descending", comment: "")
+        case .stations:
+            return NSLocalizedString("By number of stations", comment: "")
+        case .location:
+            return NSLocalizedString("By proximity", comment: "")
+        }
+    }
+
+    static let allValues = [nameAsc, nameDesc, stations, location]
+}
+
 protocol HomeDisplayLogic: class {
   func displayData(data: [Home.Fetch.ViewModel]?, error: Error?)
 }
@@ -23,7 +45,9 @@ class HomeViewController: UIViewController, HomeDisplayLogic, APIClientDependenc
     private(set) var route: Route!
     var interactor: HomeBusinessLogic?
     private var networksData: [Home.Fetch.ViewModel]?
+    private var sortingMethod: SortingMethod = .nameAsc
 
+    var refreshControl = UIRefreshControl()
     let searchController = UISearchController(searchResultsController: nil)
     var filteredData: [Home.Fetch.ViewModel] = []
   
@@ -42,22 +66,30 @@ class HomeViewController: UIViewController, HomeDisplayLogic, APIClientDependenc
         setup()
         configureTableView()
         configureSearchBar()
-
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Sort By", style: .plain, target: self, action: #selector(sortByAction))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Sort By", comment: ""), style: .plain, target: self, action: #selector(sortByAction))
+        fetch()
     }
 
     @objc private func sortByAction() {
-        router.goTo(.sortBy, from: self)
+        router.goTo(.sortBy(method: sortingMethod, delegate: self), from: self)
     }
 
     private func configureTableView() {
         tableView.register(UINib(nibName: "NetworkCell", bundle: nil), forCellReuseIdentifier: "NetworkCell")
+        refreshControl.attributedTitle = NSAttributedString(string: NSLocalizedString("Pull to refresh", comment: ""))
+        refreshControl.addTarget(self, action: #selector(refreshAction), for: UIControl.Event.valueChanged)
+        tableView.addSubview(refreshControl) // not required when using UITableViewController
+    }
+
+
+    @objc func refreshAction() {
+       fetch()
     }
 
     private func configureSearchBar() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Networks"
+        searchController.searchBar.placeholder = NSLocalizedString("Search Networks", comment: "")
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
@@ -70,11 +102,6 @@ class HomeViewController: UIViewController, HomeDisplayLogic, APIClientDependenc
         interactor.presenter = presenter
         interactor.api = api
         presenter.viewController = viewController
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        fetch()
     }
   
     func fetch() {
@@ -93,10 +120,11 @@ class HomeViewController: UIViewController, HomeDisplayLogic, APIClientDependenc
             }))
             self.present(alert, animated: true, completion: nil)
         } else {
-            networksData = data?.sorted(by: { $0.name < $1.name })
+            networksData = data
+            sortList()
             HUD.flash(.success)
         }
-        tableView.reloadData()
+        refreshControl.endRefreshing()
     }
 
     func filterContentForSearchText(_ searchText: String) {
@@ -110,6 +138,25 @@ class HomeViewController: UIViewController, HomeDisplayLogic, APIClientDependenc
                 network.location.country.lowercased().contains(searchText.lowercased())
         })
 
+        tableView.reloadData()
+    }
+
+    private func sortList() {
+        guard let data = networksData else {
+            return
+        }
+        switch sortingMethod {
+        case .nameAsc:
+            networksData = data.sorted(by: { $0.name < $1.name })
+        case .nameDesc:
+            networksData = data.sorted(by: { $0.name > $1.name })
+        case .stations:
+            //TODO
+            break
+        case .location:
+            //TODO
+            break
+        }
         tableView.reloadData()
     }
 }
@@ -180,4 +227,14 @@ extension HomeViewController: UISearchResultsUpdating {
         let searchBar = searchController.searchBar
         filterContentForSearchText(searchBar.text!)
     }
+}
+
+extension HomeViewController: SortByDelegate {
+    func sortByViewController(_ viewController: SortByViewController, didChangeTo sortMethod: SortingMethod) {
+        self.sortingMethod = sortMethod
+        sortList()
+        viewController.dismiss(animated: true, completion: nil)
+    }
+
+
 }

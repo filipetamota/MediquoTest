@@ -19,7 +19,7 @@ enum Route {
     case home
     case detail(detailRoute: String)
     case stations(stations: [Detail.Fetch.Station])
-    case sortBy
+    case sortBy(method: SortingMethod, delegate: SortByDelegate)
 }
 
 protocol Router {
