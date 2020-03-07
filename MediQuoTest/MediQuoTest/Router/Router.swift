@@ -18,6 +18,7 @@ protocol Routable {
 enum Route {
     case home
     case detail(detailRoute: String)
+    case stations(stations: [Detail.Fetch.Station])
 }
 
 protocol Router {

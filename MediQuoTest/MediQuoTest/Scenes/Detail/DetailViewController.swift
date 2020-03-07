@@ -97,7 +97,12 @@ class DetailViewController: UIViewController, DetailDisplayLogic, APIClientDepen
         mapItem.name = data.name
         mapItem.openInMaps(launchOptions: options)
     }
+
     @IBAction func openStationsList(_ sender: Any) {
+        guard let data = data else {
+            return
+        }
+        router.goTo(.stations(stations: data.stations), from: self)
     }
 }
 
